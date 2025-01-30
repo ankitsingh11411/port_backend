@@ -1,7 +1,7 @@
 const Contact = require('../models/Contact');
 const mailer = require('../utils/mailer');
 
-exports.createContact = async (req, res) => {
+const createContact = async (req, res) => {
   try {
     const { name, email, message } = req.body;
     const contact = new Contact({ name, email, message });
@@ -25,3 +25,5 @@ exports.createContact = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+
+module.exports = { createContact };
