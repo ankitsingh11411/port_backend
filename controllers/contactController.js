@@ -7,13 +7,11 @@ exports.createContact = async (req, res) => {
     const contact = new Contact({ name, email, message });
     await contact.save();
 
-    // Send email to user
     const userSubject = 'Thank you for contacting me!';
     const userText =
       'I will respond to your message at my earliest convenience.';
     mailer.sendEmail(email, userSubject, userText);
 
-    // Send email to admin
     const adminSubject = `New message from ${name}`;
     const adminText = `  
       Name: ${name}  

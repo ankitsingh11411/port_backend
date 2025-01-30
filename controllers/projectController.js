@@ -1,6 +1,6 @@
 const Project = require('../models/Project');
 
-exports.getProjects = async (req, res) => {
+const getProjects = async (req, res) => {
   try {
     const projects = await Project.find();
     res.json(projects);
@@ -9,7 +9,7 @@ exports.getProjects = async (req, res) => {
   }
 };
 
-exports.getProjectById = async (req, res) => {
+const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });
@@ -19,9 +19,9 @@ exports.getProjectById = async (req, res) => {
   }
 };
 
-exports.createProject = async (req, res) => {
-  const { title, description, githubLink, images } = req.body;
-  const project = new Project({ title, description, githubLink, images });
+const createProject = async (req, res) => {
+  const { title, description, githubLink, deployedLink } = req.body;
+  const project = new Project({ title, description, githubLink, deployedLink });
 
   try {
     await project.save();
@@ -31,7 +31,7 @@ exports.createProject = async (req, res) => {
   }
 };
 
-exports.updateProject = async (req, res) => {
+const updateProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });
@@ -48,7 +48,7 @@ exports.updateProject = async (req, res) => {
   }
 };
 
-exports.deleteProject = async (req, res) => {
+const deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });
@@ -57,4 +57,12 @@ exports.deleteProject = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+module.exports = {
+  getProjects,
+  getProjectById,
+  createProject,
+  updateProject,
+  deleteProject,
 };
