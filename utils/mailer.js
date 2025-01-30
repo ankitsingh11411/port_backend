@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.sendEmail = (to, subject, text) => {
+const sendEmail = (to, subject, text) => {
   const mailOptions = {
     from: 'your-email@gmail.com',
     to,
@@ -27,3 +27,5 @@ exports.sendEmail = (to, subject, text) => {
     }
   });
 };
+
+module.exports = { sendEmail };
