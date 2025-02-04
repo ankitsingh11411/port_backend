@@ -16,7 +16,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: ['https://port-frontend-one.vercel.app', 'http://localhost:5174'],
+  origin: ['https://port-frontend-one.vercel.app', 'http://localhost:5173'],
   methods: ['POST', 'GET'],
   allowedHeaders: ['Content-Type'],
 };
