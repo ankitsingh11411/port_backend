@@ -18,7 +18,7 @@ const createContact = async (req, res) => {
       Email: ${email}  
       Message: ${message}  
     `;
-    mailer.sendEmail('your-email@example.com', adminSubject, adminText);
+    mailer.sendEmail(process.env.NODEMAILER_USER, adminSubject, adminText);
 
     res.status(201).json({ message: 'Contact message saved' });
   } catch (err) {
