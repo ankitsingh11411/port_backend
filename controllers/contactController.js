@@ -10,6 +10,7 @@ const createContact = async (req, res) => {
     const userSubject = 'Thank you for contacting me!';
     const userText =
       'I will respond to your message at my earliest convenience.';
+    mailer.sendEmail(email, userSubject, userText);
 
     const adminSubject = `New message from ${name}`;
     const adminText = `  
@@ -17,25 +18,11 @@ const createContact = async (req, res) => {
       Email: ${email}  
       Message: ${message}  
     `;
+    mailer.sendEmail('your-email@example.com', adminSubject, adminText);
 
-    await mailer.sendEmail(email, userSubject, userText).catch((error) => {
-      console.error('Failed to send user email:', error);
-      throw new Error('User email failed');
-    });
-
-    await mailer
-      .sendEmail(process.env.NODEMAILER_USER, adminSubject, adminText)
-      .catch((error) => {
-        console.error('Failed to send admin email:', error);
-        throw new Error('Admin email failed');
-      });
-
-    res
-      .status(201)
-      .json({ message: 'Contact message saved, emails sent successfully' });
+    res.status(201).json({ message: 'Contact message saved' });
   } catch (err) {
-    console.error('Error in contact form:', err.message);
-    res.status(500).json({ message: `Email error: ${err.message}` });
+    res.status(400).json({ message: err.message });
   }
 };
 
