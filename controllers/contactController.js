@@ -18,21 +18,24 @@ const createContact = async (req, res) => {
       Message: ${message}  
     `;
 
-    await mailer.sendEmail(email, userSubject, userText);
-    await mailer.sendEmail(
-      process.env.NODEMAILER_USER,
-      adminSubject,
-      adminText
-    );
+    await mailer.sendEmail(email, userSubject, userText).catch((error) => {
+      console.error('Failed to send user email:', error);
+      throw new Error('User email failed');
+    });
+
+    await mailer
+      .sendEmail(process.env.NODEMAILER_USER, adminSubject, adminText)
+      .catch((error) => {
+        console.error('Failed to send admin email:', error);
+        throw new Error('Admin email failed');
+      });
 
     res
       .status(201)
       .json({ message: 'Contact message saved, emails sent successfully' });
   } catch (err) {
-    console.error('Error in contact form:', err);
-    res
-      .status(500)
-      .json({ message: 'Something went wrong, please try again later.' });
+    console.error('Error in contact form:', err.message);
+    res.status(500).json({ message: `Email error: ${err.message}` });
   }
 };
 
